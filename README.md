@@ -1,105 +1,156 @@
-![gogs-brand](https://user-images.githubusercontent.com/2946214/146899259-6a8b58ad-8d6e-40d2-ab02-79dc6aadabbf.png)
+[![PayPal donate button](https://img.shields.io/badge/paypal-donate-green.svg)](https://paypal.me/yeho) [![支付宝捐助按钮](https://img.shields.io/badge/%E6%94%AF%E4%BB%98%E5%AE%9D-%E5%90%91TA%E6%8D%90%E5%8A%A9-green.svg)](https://static.oneinstack.com/images/alipay.png) [![微信捐助按钮](https://img.shields.io/badge/%E5%BE%AE%E4%BF%A1-%E5%90%91TA%E6%8D%90%E5%8A%A9-green.svg)](https://static.oneinstack.com/images/weixin.png)
 
-[![GitHub Workflow Status](https://img.shields.io/github/checks-status/gogs/gogs/main?logo=github&style=for-the-badge)](https://github.com/gogs/gogs/actions?query=branch%3Amain) [![Discord](https://img.shields.io/discord/382595433060499458.svg?style=for-the-badge&logo=discord)](https://discord.gg/9aqdHU7) [![Sourcegraph](https://img.shields.io/badge/view%20on-Sourcegraph-brightgreen.svg?style=for-the-badge&logo=sourcegraph)](https://sourcegraph.com/github.com/gogs/gogs)
+This script is written using the shell, in order to quickly deploy `LEMP`/`LAMP`/`LNMP`/`LNMPA`/`LTMP`(Linux, Nginx/Tengine/OpenResty, MySQL in a production environment/MariaDB/Percona, PHP, JAVA), applicable to RHEL 7, 8, 9(including CentOS,RedHat,AlmaLinux,Rocky), Debian 9, 10, 11, 12, Ubuntu 16, 18, 20, 22 and Fedora 27+ of 64.
 
-[简体中文](README_ZH.md)
+Script properties:
+- Continually updated, Provide Shell Interaction and Autoinstall
+- Source compiler installation, most stable source is the latest version, and download from the official site
+- Some security optimization
+- Providing a plurality of database versions (MySQL-8.0, MySQL-5.7, MySQL-5.6, MySQL-5.5, MariaDB-10.11, MariaDB-10.5, MariaDB-10.4, MariaDB-5.5, Percona-8.0, Percona-5.7, Percona-5.6, Percona-5.5, PostgreSQL, MongoDB)
+- Providing multiple PHP versions (PHP-8.2, PHP-8.1, PHP-8.0, PHP-7.4, PHP-7.3, PHP-7.2, PHP-7.1, PHP-7.0, PHP-5.6, PHP-5.5, PHP-5.4, PHP-5.3)
+- Provide Nginx, Tengine, OpenResty, Apache and ngx_lua_waf
+- Providing a plurality of Tomcat version (Tomcat-10, Tomcat-9, Tomcat-8, Tomcat-7)
+- Providing a plurality of JDK version (OpenJDK-8, OpenJDK-11, OpenJDK-17)
+- According to their needs to install PHP Cache Accelerator provides ZendOPcache, xcache, apcu, eAccelerator. And php extensions,include ZendGuardLoader,ionCube,SourceGuardian,imagick,gmagick,fileinfo,imap,ldap,calendar,phalcon,yaf,yar,redis,memcached,memcache,mongodb,swoole,xdebug
+- Installation Nodejs, Pureftpd, phpMyAdmin according to their needs
+- Install memcached, redis according to their needs
+- Jemalloc optimize MySQL, Nginx
+- Providing add a virtual host script, include Let's Encrypt SSL certificate
+- Provide Nginx/Tengine/OpenResty/Apache/Tomcat, MySQL/MariaDB/Percona, PHP, Redis, Memcached, phpMyAdmin upgrade script
+- Provide local,remote(rsync between servers),Aliyun OSS,Qcloud COS,UPYUN,QINIU,Amazon S3,Google Drive and Dropbox backup script
 
-## 🔮 Vision
+## Installation
 
-The Gogs (`/gɑgz/`) project aims to build a simple, stable and extensible self-hosted Git service that can be set up in the most painless way. With Go, this can be done with an independent binary distribution across all platforms that Go supports, including Linux, macOS, Windows and ARM-based systems.
+Install the dependencies for your distro, download the source and run the installation script.
 
-## 📡 Overview
+#### CentOS/Redhat
 
-- Please visit [our home page](https://gogs.io) for user documentation.
-- Please refer to [CHANGELOG.md](CHANGELOG.md) for list of changes in each releases.
-- Want to try it before doing anything else? Do it [online](https://try.gogs.io/gogs/gogs)!
-- Having trouble? Help yourself with [troubleshooting](https://gogs.io/docs/intro/troubleshooting.html) or ask questions in [Discussions](https://github.com/gogs/gogs/discussions).
-- Want to help with localization? Check out the [localization documentation](https://gogs.io/docs/features/i18n.html).
-- Ready to get hands dirty? Read our [contributing guide](.github/CONTRIBUTING.md).
-- Hmm... What about APIs? We have experimental support with [documentation](https://github.com/gogs/docs-api).
+```bash
+yum -y install wget screen
+```
 
-## 💌 Features
+#### Debian/Ubuntu
 
-- User dashboard, user profile and activity timeline.
-- Access repositories via SSH, HTTP and HTTPS protocols.
-- User, organization and repository management.
-- Repository and organization webhooks, including Slack, Discord and Dingtalk.
-- Repository Git hooks, deploy keys and Git LFS.
-- Repository issues, pull requests, wiki, protected branches and collaboration.
-- Migrate and mirror repositories with wiki from other code hosts.
-- Web editor for quick editing repository files and wiki.
-- Jupyter Notebook and PDF rendering.
-- Authentication via SMTP, LDAP, reverse proxy, GitHub.com and GitHub Enterprise with 2FA.
-- Customize HTML templates, static files and many others.
-- Rich database backend, including PostgreSQL, MySQL, SQLite3 and [TiDB](https://github.com/pingcap/tidb).
-- Have localization over [31 languages](https://crowdin.com/project/gogs).
+```bash
+apt-get -y install wget screen
+```
 
-## 💾 Hardware requirements
+#### Download Source and Install
 
-- A Raspberry Pi or $5 Digital Ocean Droplet is more than enough to get you started. Some even use 64MB RAM Docker [CaaS](https://www.docker.com/blog/containers-as-a-service-caas/).
-- 2 CPU cores and 512MB RAM would be the baseline for teamwork.
-- Increase CPU cores when your team size gets significantly larger, memory footprint remains low.
+```bash
+wget http://mirrors.linuxeye.com/oneinstack-full.tar.gz
+tar xzf oneinstack-full.tar.gz
+cd oneinstack
+```
 
-## 💻 Browser support
+If you disconnect during installation, you can execute the command `screen -r oneinstack` to reconnect to the install window
+```bash
+screen -S oneinstack
+```
 
-- Please see [Semantic UI](https://github.com/Semantic-Org/Semantic-UI#browser-support) for specific versions of supported browsers.
-- The smallest resolution officially supported is **1024*768**, however the UI may still look right in smaller resolutions, but no promises or fixes.
+If you need to modify the directory (installation, data storage, Nginx logs), modify `options.conf` file before running install.sh
+```bash
+./install.sh
+```
 
-## 📜 Installation
+## How to install another PHP version
 
-Make sure you install the [prerequisites](https://gogs.io/docs/installation) first.
+```bash
+~/oneinstack/install.sh --mphp_ver 54
 
-There are 6 ways to install Gogs:
+```
 
-- [Install from binary](https://gogs.io/docs/installation/install_from_binary.html)
-- [Install from source](https://gogs.io/docs/installation/install_from_source.html)
-- [Install from packages](https://gogs.io/docs/installation/install_from_packages.html)
-- [Ship with Docker](https://github.com/gogs/gogs/tree/main/docker)
-- [Try with Vagrant](https://github.com/geerlingguy/ansible-vagrant-examples/tree/master/gogs)
+## How to add Extensions
 
-### Deploy to cloud
+```bash
+~/oneinstack/addons.sh
 
-- [Cloudron](https://www.cloudron.io/store/io.gogs.cloudronapp.html)
-- [Sandstorm](https://github.com/cem/gogs-sandstorm)
-- [sloppy.io](https://github.com/sloppyio/quickstarters/tree/master/gogs)
-- [YunoHost](https://github.com/YunoHost-Apps/gogs_ynh)
-- [DPlatform](https://github.com/DFabric/DPlatform-Shell)
-- [LunaNode](https://github.com/LunaNode/launchgogs)
-- [alwaysdata](https://www.alwaysdata.com/en/marketplace/gogs/)
+```
 
-### Tutorials
+## How to add a virtual host
 
-- [Private Git Web Portal in Raspberry PI With Gogs](https://peppe8o.com/private-git-web-portal-in-raspberry-pi-with-gogs/)
-- [How To Set Up Gogs on Ubuntu 14.04](https://www.digitalocean.com/community/tutorials/how-to-set-up-gogs-on-ubuntu-14-04)
-- [Run your own GitHub-like service with the help of Docker](https://blog.hypriot.com/post/run-your-own-github-like-service-with-docker/)
-- [Dockerized Gogs git server and alpine postgres in 20 minutes or less](https://garthwaite.org/docker-gogs.html)
-- [Host Your Own Private GitHub with Gogs](https://eladnava.com/host-your-own-private-github-with-gogs-io/)
-- [使用 Gogs 搭建自己的 Git 服务器](https://blog.mynook.info/post/host-your-own-git-server-using-gogs/) (Chinese)
-- [阿里云上 Ubuntu 14.04 64 位安装 Gogs](https://my.oschina.net/luyao/blog/375654) (Chinese)
-- [Installing Gogs on FreeBSD](https://www.codejam.info/2015/03/installing-gogs-on-freebsd.html)
-- [How to install Gogs on a Linux Server (DigitalOcean)](https://www.youtube.com/watch?v=deSfX0gqefE)
+```bash
+~/oneinstack/vhost.sh
+```
 
-## 📦 Software, service and product support
+## How to delete a virtual host
 
-- [Fabric8](http://fabric8.io/) (DevOps)
-- [Jenkins](https://plugins.jenkins.io/gogs-webhook/) (CI)
-- [Puppet](https://forge.puppet.com/modules/Siteminds/gogs) (IT)
-- [Synology](https://www.synology.com) (Docker)
-- [Syncloud](https://syncloud.org/) (App Store)
+```bash
+~/oneinstack/vhost.sh --del
+```
 
-## 🙇‍♂️ Acknowledgments
+## How to add FTP virtual user
 
-- Thanks [Egon Elbre](https://twitter.com/egonelbre) for designing the original version of the logo.
-- Thanks [Crowdin](https://crowdin.com/project/gogs) for sponsoring open source translation plan.
-- Thanks [DigitalOcean](https://www.digitalocean.com), [VPSServer](https://www.vpsserver.com/), [Hosted.nl](https://www.hosted.nl/), [BitLaunch](https://bitlaunch.io), and [MonoVM](https://monovm.com/linux-vps/) for sponsoring VPS services.
-- Thanks [KeyCDN](https://www.keycdn.com/) for sponsoring CDN service.
-- Thanks [Buildkite](https://buildkite.com) for sponsoring open source CI/CD plan.
+```bash
+~/oneinstack/pureftpd_vhost.sh
+```
 
-## 👋 Contributors
+## How to backup
 
-- See [contributors page](https://github.com/gogs/gogs/graphs/contributors) for top 100 contributors.
-- See [TRANSLATORS](conf/locale/TRANSLATORS) for public list of translators.
+```bash
+~/oneinstack/backup_setup.sh    // Backup parameters
+~/oneinstack/backup.sh    // Perform the backup immediately
+crontab -l    // Can be added to scheduled tasks, such as automatic backups every day 1:00
+  0 1 * * * cd ~/oneinstack/backup.sh  > /dev/null 2>&1 &
+```
 
-## ⚖️ License
+## How to manage service
 
-This project is under the MIT License. See the [LICENSE](https://github.com/gogs/gogs/blob/main/LICENSE) file for the full license text.
+Nginx/Tengine/OpenResty:
+```bash
+systemctl {start|stop|status|restart|reload} nginx
+```
+MySQL/MariaDB/Percona:
+```bash
+systemctl {start|stop|restart|reload|status} mysqld
+```
+PostgreSQL:
+```bash
+systemctl {start|stop|restart|status} postgresql
+```
+MongoDB:
+```bash
+systemctl {start|stop|status|restart|reload} mongod
+```
+PHP:
+```bash
+systemctl {start|stop|restart|reload|status} php-fpm
+```
+Apache:
+```bash
+systemctl {start|restart|stop} httpd
+```
+Tomcat:
+```bash
+systemctl {start|stop|status|restart} tomcat
+```
+Pure-FTPd:
+```bash
+systemctl {start|stop|restart|status} pureftpd
+```
+Redis:
+```bash
+systemctl {start|stop|status|restart|reload} redis-server
+```
+Memcached:
+```bash
+systemctl {start|stop|status|restart|reload} memcached
+```
+
+## How to upgrade
+
+```bash
+~/oneinstack/upgrade.sh
+```
+
+## How to uninstall
+
+```bash
+~/oneinstack/uninstall.sh
+```
+
+## Installation
+
+For feedback, questions, and to follow the progress of the project: <br />
+[Telegram Group](https://t.me/oneinstack)<br />
+[OneinStack](https://oneinstack.com)<br />
